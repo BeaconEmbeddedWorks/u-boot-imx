@@ -1,6 +1,7 @@
 #!/bin/bash
 #
 cp ./arch/arm/dts/beacon-imx8mn-kit.dtb ../imx-mkimage/iMX8M/fsl-imx8mn-evk.dtb
+cp ./tools/mkimage ../imx-mkimage/iMX8M/mkimage_uboot
 cp ./u-boot-nodtb.bin ../imx-mkimage/iMX8M
 cp ./u-boot-dtb.bin ../imx-mkimage/iMX8M
 cp ./spl/u-boot-spl.bin ../imx-mkimage/iMX8M
