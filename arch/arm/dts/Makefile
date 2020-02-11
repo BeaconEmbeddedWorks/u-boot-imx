@@ -636,6 +636,7 @@ dtb-$(CONFIG_ARCH_IMX8M) += fsl-imx8mq-evk.dtb \
 		fsl-imx8mm-evk.dtb \
 		fsl-imx8mn-ddr4-evk.dtb \
 		fsl-imx8mq-aiy.dtb \
+		beacon-imx8mm-kit.dtb \
 		beacon-imx8mn-kit.dtb
 
 dtb-$(CONFIG_RCAR_GEN2) += \
