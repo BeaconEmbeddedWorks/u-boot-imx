@@ -38,6 +38,7 @@
 #define CONFIG_SPL_ABORT_ON_RAW_IMAGE /* For RAW image gives a error info not panic */
 
 #undef CONFIG_DM_MMC
+#undef CONFIG_DM_PMIC
 #define CONFIG_POWER
 #define CONFIG_POWER_I2C
 #define CONFIG_POWER_BD71837
@@ -210,7 +211,6 @@
 #define FSL_FSPI_FLASH_NUM		1
 #define FSPI0_BASE_ADDR			0x30bb0000
 #define FSPI0_AMBA_BASE			0x0
-#define CONFIG_FSPI_DQS_LOOPBACK
 #define CONFIG_FSPI_QUAD_SUPPORT
 #define CONFIG_SYS_FSL_FSPI_AHB
 #endif /* CONFIG_FSL_FSPI */
