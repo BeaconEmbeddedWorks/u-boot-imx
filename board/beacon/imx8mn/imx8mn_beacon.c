@@ -33,6 +33,11 @@ DECLARE_GLOBAL_DATA_PTR;
 
 #define UART_PAD_CTRL	(PAD_CTL_DSE6 | PAD_CTL_FSEL1)
 #define WDOG_PAD_CTRL	(PAD_CTL_DSE6 | PAD_CTL_ODE | PAD_CTL_PUE | PAD_CTL_PE)
+#define PWM1_PAD_CTRL (PAD_CTL_FSEL2 | PAD_CTL_DSE6)
+
+static iomux_v3_cfg_t const pwm_pads[] = {
+	IMX8MN_PAD_GPIO1_IO01__PWM1_OUT | MUX_PAD_CTRL(PWM1_PAD_CTRL),
+};
 
 static iomux_v3_cfg_t const uart_pads[] = {
 	IMX8MN_PAD_UART2_RXD__UART2_DCE_RX | MUX_PAD_CTRL(UART_PAD_CTRL),
@@ -89,6 +94,7 @@ int board_early_init_f(void)
 {
 	struct wdog_regs *wdog = (struct wdog_regs *)WDOG1_BASE_ADDR;
 
+	imx_iomux_v3_setup_multiple_pads(pwm_pads, ARRAY_SIZE(pwm_pads)); /* turn off LCD */
 	imx_iomux_v3_setup_multiple_pads(wdog_pads, ARRAY_SIZE(wdog_pads));
 
 	set_wdog_reset(wdog);
