@@ -85,9 +85,11 @@
 	JAILHOUSE_ENV \
 	"script=boot.scr\0" \
 	"image=Image\0" \
+	"ramdiskimage=rootfs.cpio.uboot\0" \
 	"console=ttymxc1,115200\0" \
 	"fdt_addr=0x43000000\0"			\
 	"fdt_high=0xffffffffffffffff\0"		\
+	"ramdisk_addr=0x44000000\0" \
 	"boot_fdt=try\0" \
 	"fdt_file=" CONFIG_DEFAULT_FDT_FILE "\0" \
 	"initrd_addr=0x43800000\0"		\
@@ -98,11 +100,14 @@
 	"mmcautodetect=yes\0" \
 	"mmcargs=setenv bootargs ${jh_clk} console=${console} " \
 	" root=PARTUUID=${uuid} rootwait rw ${mtdparts} ${optargs}\0" \
+	"ramargs=setenv bootargs ${jh_clk} console=${console} root=/dev/ram rw " \
+	" ${optargs}\0" \
 	"loadbootscript=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${script};\0" \
 	"bootscript=echo Running bootscript from mmc ...; " \
 		"source\0" \
 	"loadimage=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${image}\0" \
 	"loadfdt=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}\0" \
+	"loadramdisk=load mmc ${mmcdev} ${ramdisk_addr} ${ramdiskimage}\0"\
 	"mmcboot=echo Booting from mmc ...; " \
 		"run finduuid; run mmcargs; " \
 		"if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
@@ -133,7 +138,11 @@
 			"fi; " \
 		"else " \
 			"booti; " \
-		"fi;\0"
+		"fi;\0" \
+	"ramboot=echo Booting from RAMdisk...; "\
+		"run loadimage; run loadfdt; fdt addr $fdt_addr; "\
+		"run loadramdisk; run ramargs; " \
+		"booti ${loadaddr} ${ramdisk_addr} ${fdt_addr} ${optargs}\0"
 
 #define CONFIG_BOOTCOMMAND \
 	   "mmc dev ${mmcdev}; if mmc rescan; then " \
