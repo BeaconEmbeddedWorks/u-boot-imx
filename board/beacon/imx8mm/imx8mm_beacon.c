@@ -27,6 +27,7 @@
 #include <imx_mipi_dsi_bridge.h>
 #include <mipi_dsi_panel.h>
 #include <asm/mach-imx/video.h>
+#include <imx_thermal.h>
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -521,9 +522,15 @@ int board_mmc_get_env_dev(int devno)
 
 int board_late_init(void)
 {
+	int minc, maxc;
 #ifdef CONFIG_ENV_IS_IN_MMC
 	board_late_mmc_env_init();
 #endif
+
+	if (get_cpu_temp_grade(&minc, &maxc) == TEMP_INDUSTRIAL) {
+		env_set("trip0", "0x17318");
+		env_set("trip1", "0x19a28");
+	}
 
 	return 0;
 }
