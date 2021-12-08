@@ -1,0 +1,15 @@
+if TARGET_IMX8MP_BEACON
+
+config SYS_BOARD
+	default "imx8mp"
+
+config SYS_VENDOR
+	default "beacon"
+
+config SYS_CONFIG_NAME
+	default "imx8mp_beacon"
+
+source "board/freescale/common/Kconfig"
+
+endif
+

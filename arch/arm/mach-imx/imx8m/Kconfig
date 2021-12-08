@@ -248,6 +248,13 @@ config TARGET_IMX8MN_BEACON
 	select SUPPORT_SPL
 	select IMX8M_LPDDR4
 
+
+config TARGET_IMX8MP_BEACON
+	bool "imx8mp Beacon Embedded devkit"
+	select IMX8MP
+	select SUPPORT_SPL
+	select IMX8M_LPDDR4
+
 config TARGET_PHYCORE_IMX8MM
 	bool "PHYTEC PHYCORE i.MX8MM"
 	select IMX8MM
@@ -274,6 +281,7 @@ source "board/technexion/pico-imx8mq/Kconfig"
 source "board/toradex/verdin-imx8mm/Kconfig"
 source "board/beacon/imx8mm/Kconfig"
 source "board/beacon/imx8mn/Kconfig"
+source "board/beacon/imx8mp/Kconfig"
 source "board/phytec/phycore_imx8mm/Kconfig"
 source "board/phytec/phycore_imx8mp/Kconfig"
 
