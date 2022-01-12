@@ -4,6 +4,10 @@
  */
 
 / {
+	aliases {
+		spi0 = &flexspi;
+	};
+
 	wdt-reboot {
 		compatible = "wdt-reboot";
 		wdt = <&wdog1>;
