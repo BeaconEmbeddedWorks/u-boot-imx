@@ -98,6 +98,12 @@
 
 &pca6416_1 {
 	compatible = "ti,tca6416";
+	usb-hub {
+		gpio-hog;
+		gpios = <7 GPIO_ACTIVE_HIGH>;
+		line-name = "usb-hub";
+		output-low;
+	};
 };
 
 &pinctrl_i2c1 {
