@@ -4,6 +4,7 @@
  */
 
 #include <dt-bindings/clock/imx8mm-clock.h>
+#include <dt-bindings/power/imx8mm-power.h>
 #include <dt-bindings/reset/imx8mq-reset.h>
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/input/input.h>
@@ -201,110 +202,6 @@
 		interrupts = <GIC_PPI 7
 			     (GIC_CPU_MASK_SIMPLE(6) | IRQ_TYPE_LEVEL_HIGH)>;
 		interrupt-affinity = <&A53_0>, <&A53_1>, <&A53_2>, <&A53_3>;
-	};
-
-	power-domains {
-		compatible = "simple-bus";
-		/* HSIO SS */
-		hsiomix_pd: hsiomix-pd {
-			compatible = "fsl,imx8m-pm-domain";
-			#power-domain-cells = <0>;
-			domain-index = <0>;
-			domain-name = "hsiomix";
-			clocks = <&clk IMX8MM_CLK_USB1_CTRL_ROOT>;
-		};
-
-		pcie_pd: pcie-pd {
-			compatible = "fsl,imx8m-pm-domain";
-			#power-domain-cells = <0>;
-			domain-index = <1>;
-			domain-name = "pcie";
-			parent-domains = <&hsiomix_pd>;
-			clocks = <&clk IMX8MM_CLK_PCIE1_ROOT>;
-		};
-
-		usb_otg1_pd: usbotg1-pd {
-			compatible = "fsl,imx8m-pm-domain";
-			#power-domain-cells = <0>;
-			domain-index = <2>;
-			domain-name = "usb_otg1";
-			parent-domains = <&hsiomix_pd>;
-		};
-
-		usb_otg2_pd: usbotg2-pd {
-			compatible = "fsl,imx8m-pm-domain";
-			#power-domain-cells = <0>;
-			domain-index = <3>;
-			domain-name = "usb_otg2";
-			parent-domains = <&hsiomix_pd>;
-		};
-
-		/* GPU SS */
-		gpumix_pd: gpumix-pd {
-			compatible = "fsl,imx8m-pm-domain";
-			#power-domain-cells = <0>;
-			domain-index = <4>;
-			domain-name = "gpumix";
-			clocks = <&clk IMX8MM_CLK_GPU_BUS_ROOT>,
-				 <&clk IMX8MM_CLK_GPU_AHB>,
-				 <&clk IMX8MM_CLK_GPU2D_ROOT>,
-				 <&clk IMX8MM_CLK_GPU3D_ROOT>;
-		};
-
-		/* VPU SS */
-		vpumix_pd: vpumix-pd {
-			compatible = "fsl,imx8m-pm-domain";
-			#power-domain-cells = <0>;
-			domain-index = <5>;
-			domain-name = "vpumix";
-			clocks = <&clk IMX8MM_CLK_VPU_DEC_ROOT>;
-		};
-
-		vpu_g1_pd: vpug1-pd {
-			compatible = "fsl,imx8m-pm-domain";
-			#power-domain-cells = <0>;
-			domain-index = <6>;
-			domain-name = "vpu_g1";
-			parent-domains = <&vpumix_pd>;
-			clocks = <&clk IMX8MM_CLK_VPU_G1_ROOT>;
-		};
-
-		vpu_g2_pd: vpug2-pd {
-			compatible = "fsl,imx8m-pm-domain";
-			#power-domain-cells = <0>;
-			domain-index = <7>;
-			domain-name = "vpu_g2";
-			parent-domains = <&vpumix_pd>;
-			clocks = <&clk IMX8MM_CLK_VPU_G2_ROOT>;
-		};
-
-		vpu_h1_pd: vpuh1-pd {
-			compatible = "fsl,imx8m-pm-domain";
-			#power-domain-cells = <0>;
-			domain-index = <8>;
-			domain-name = "vpu_h1";
-			parent-domains = <&vpumix_pd>;
-			clocks = <&clk IMX8MM_CLK_VPU_H1_ROOT>;
-		};
-
-		/* DISP SS */
-		dispmix_pd: dispmix-pd {
-			compatible = "fsl,imx8m-pm-domain";
-			#power-domain-cells = <0>;
-			domain-index = <9>;
-			domain-name = "dispmix";
-			clocks = <&clk IMX8MM_CLK_DISP_ROOT>,
-				 <&clk IMX8MM_CLK_DISP_AXI_ROOT>,
-				 <&clk IMX8MM_CLK_DISP_APB_ROOT>;
-		};
-
-		mipi_pd: mipi-pd {
-			compatible = "fsl,imx8m-pm-domain";
-			#power-domain-cells = <0>;
-			domain-index = <10>;
-			domain-name = "mipi";
-			parent-domains = <&dispmix_pd>;
-		};
 	};
 
 	timer {
@@ -725,6 +622,75 @@
 				reg = <0x30390000 0x10000>;
 				interrupts = <GIC_SPI 89 IRQ_TYPE_LEVEL_HIGH>;
 				#reset-cells = <1>;
+			};
+
+			gpc: gpc@303a0000 {
+				compatible = "fsl,imx8mm-gpc";
+				reg = <0x303a0000 0x10000>;
+				interrupt-parent = <&gic>;
+				interrupt-controller;
+				#interrupt-cells = <3>;
+
+				pgc {
+					#address-cells = <1>;
+					#size-cells = <0>;
+
+					pgc_hsiomix: power-domain@0 {
+						#power-domain-cells = <0>;
+						reg = <IMX8MM_POWER_DOMAIN_HSIOMIX>;
+						clocks = <&clk IMX8MM_CLK_USB_BUS>;
+					};
+
+					pgc_pcie: power-domain@1 {
+						#power-domain-cells = <0>;
+						reg = <IMX8MM_POWER_DOMAIN_PCIE>;
+						power-domains = <&pgc_hsiomix>;
+					};
+
+					pgc_otg1: power-domain@2 {
+						#power-domain-cells = <0>;
+						reg = <IMX8MM_POWER_DOMAIN_OTG1>;
+						power-domains = <&pgc_hsiomix>;
+					};
+
+					pgc_otg2: power-domain@3 {
+						#power-domain-cells = <0>;
+						reg = <IMX8MM_POWER_DOMAIN_OTG2>;
+						power-domains = <&pgc_hsiomix>;
+					};
+
+					pgc_gpumix: power-domain@4 {
+						#power-domain-cells = <0>;
+						reg = <IMX8MM_POWER_DOMAIN_GPUMIX>;
+						clocks = <&clk IMX8MM_CLK_GPU_BUS_ROOT>,
+						         <&clk IMX8MM_CLK_GPU_AHB>;
+					};
+
+					pgc_gpu: power-domain@5 {
+						#power-domain-cells = <0>;
+						reg = <IMX8MM_POWER_DOMAIN_GPU>;
+						clocks = <&clk IMX8MM_CLK_GPU_AHB>,
+						         <&clk IMX8MM_CLK_GPU_BUS_ROOT>,
+						         <&clk IMX8MM_CLK_GPU2D_ROOT>,
+						         <&clk IMX8MM_CLK_GPU3D_ROOT>;
+						resets = <&src IMX8MQ_RESET_GPU_RESET>;
+						power-domains = <&pgc_gpumix>;
+					};
+
+					dispmix_pd: power-domain@10 {
+						#power-domain-cells = <0>;
+						reg = <IMX8MM_POWER_DOMAIN_DISPMIX>;
+						clocks = <&clk IMX8MM_CLK_DISP_ROOT>,
+							 <&clk IMX8MM_CLK_DISP_AXI_ROOT>,
+							 <&clk IMX8MM_CLK_DISP_APB_ROOT>;
+					};
+
+					mipi_pd: power-domain@11 {
+						#power-domain-cells = <0>;
+						reg = <IMX8MM_POWER_DOMAIN_MIPI>;
+						power-domains = <&dispmix_pd>;
+					};
+				};
 			};
 		};
 
@@ -1201,6 +1167,7 @@
 							<&clk IMX8MM_SYS_PLL1_100M>;
 				fsl,usbphy = <&usbphynop1>;
 				fsl,usbmisc = <&usbmisc1 0>;
+				power-domains = <&pgc_otg1>;
 				status = "disabled";
 			};
 
@@ -1222,6 +1189,7 @@
 						<&clk IMX8MM_SYS_PLL1_100M>;
 				fsl,usbphy = <&usbphynop2>;
 				fsl,usbmisc = <&usbmisc2 0>;
+				power-domains = <&pgc_otg2>;
 				status = "disabled";
 			};
 
@@ -1289,7 +1257,7 @@
 					<0 0 0 4 &gic GIC_SPI 122 IRQ_TYPE_LEVEL_HIGH>;
 			linux,pci-domain = <0>;
 			fsl,max-link-speed = <2>;
-			power-domains = <&pcie_pd>;
+			power-domains = <&pgc_pcie>;
 			resets = <&src IMX8MQ_RESET_PCIEPHY>,
 				 <&src IMX8MQ_RESET_PCIE_CTRL_APPS_EN>,
 				 <&src IMX8MQ_RESET_PCIE_CTRL_APPS_CLK_REQ>,
@@ -1308,7 +1276,7 @@
 			interrupts = <GIC_SPI 127 IRQ_TYPE_LEVEL_HIGH>; /* eDMA */
 			interrupt-names = "dma";
 			fsl,max-link-speed = <2>;
-			power-domains = <&pcie_pd>;
+			power-domains = <&pgc_pcie>;
 			resets = <&src IMX8MQ_RESET_PCIEPHY>,
 				 <&src IMX8MQ_RESET_PCIE_CTRL_APPS_EN>,
 				 <&src IMX8MQ_RESET_PCIE_CTRL_APPS_CLK_REQ>,
