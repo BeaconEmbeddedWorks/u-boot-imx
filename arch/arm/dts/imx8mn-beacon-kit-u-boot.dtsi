@@ -6,6 +6,15 @@
 / {
 	aliases {
 		spi0 = &flexspi;
+		usbgadget0 = &usbg1;
+	};
+
+	usbg1: usbg1 {
+		compatible = "fsl,imx27-usb-gadget";
+		dr_mode = "peripheral";
+		chipidea,usb = <&usbotg1>;
+		u-boot,dm-spl;
+		status = "okay";
 	};
 
 	wdt-reboot {
