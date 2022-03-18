@@ -181,11 +181,19 @@
 	u-boot,dm-spl;
 };
 
-&pinctrl_i2c1 {
-	u-boot,dm-spl;
+&pca6416 {
+	compatible = "ti,tca6416";
 };
 
-&pinctrl_i2c1_gpio {
+&pca6416_1 {
+	compatible = "ti,tca6416";
+};
+
+&pca6416_3 {
+	compatible = "ti,tca6416";
+};
+
+&pinctrl_i2c1 {
 	u-boot,dm-spl;
 };
 

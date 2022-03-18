@@ -1270,7 +1270,7 @@ usb_modify_speed:
 		disable_cpu_nodes(blob, 2);
 #endif
 
-	cleanup_nodes_for_efi(blob);
+	/* cleanup_nodes_for_efi(blob); */
 
 	delete_u_boot_nodes(blob);
 
