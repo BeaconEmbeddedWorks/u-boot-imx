@@ -49,8 +49,12 @@
 	" ${script};\0" \
 	"bootscript=echo Running bootscript from mmc ...; " \
 		"source\0" \
+	"updatefdt=fdt addr $fdt_addr; " \
+	"  fdt set /thermal-zones/cpu-thermal/trips/trip0 temperature < ${trip0} >; " \
+	"  fdt set /thermal-zones/cpu-thermal/trips/trip1 temperature < ${trip1} > \0" \
 	"loadimage=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${image}\0" \
-	"loadfdt=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}\0" \
+	"loadfdt=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}; " \
+	"  if test -n ${trip1} > 0 ; then run updatefdt; fi\0" \
 	"mmcboot=echo Booting from mmc ...; " \
 		"run finduuid; " \
 		"run mmcargs; " \
