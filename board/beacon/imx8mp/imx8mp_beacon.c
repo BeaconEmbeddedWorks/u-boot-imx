@@ -43,14 +43,6 @@ static iomux_v3_cfg_t const wdog_pads[] = {
 	MX8MP_PAD_GPIO1_IO02__WDOG1_WDOG_B  | MUX_PAD_CTRL(WDOG_PAD_CTRL),
 };
 
-#ifdef CONFIG_NAND_MXS
-
-static void setup_gpmi_nand(void)
-{
-	init_nand_clk();
-}
-#endif
-
 int board_early_init_f(void)
 {
 	struct wdog_regs *wdog = (struct wdog_regs *)WDOG1_BASE_ADDR;
@@ -70,17 +62,6 @@ int board_early_init_f(void)
 int ft_board_setup(void *blob, struct bd_info *bd)
 {
 #ifdef CONFIG_IMX8M_DRAM_INLINE_ECC
-#ifdef CONFIG_TARGET_IMX8MP_DDR4_EVK
-	int rc;
-	phys_addr_t ecc_start = 0x120000000;
-	size_t ecc_size = 0x20000000;
-
-	rc = add_res_mem_dt_node(blob, "ecc", ecc_start, ecc_size);
-	if (rc < 0) {
-		printf("Could not create ecc reserved-memory node.\n");
-		return rc;
-	}
-#else
 	int rc;
 	phys_addr_t ecc0_start = 0xb0000000;
 	phys_addr_t ecc1_start = 0x130000000;
@@ -104,7 +85,6 @@ int ft_board_setup(void *blob, struct bd_info *bd)
 		printf("Could not create ecc2 reserved-memory node.\n");
 		return rc;
 	}
-#endif
 #endif
 
 	return 0;
@@ -453,10 +433,6 @@ int board_init(void)
 		setup_eqos();
 	}
 
-#ifdef CONFIG_NAND_MXS
-	setup_gpmi_nand();
-#endif
-
 #if defined(CONFIG_USB_DWC3) || defined(CONFIG_USB_XHCI_IMX8M)
 	init_usb_clk();
 #endif
@@ -474,10 +450,6 @@ int board_late_init(void)
 {
 #ifdef CONFIG_ENV_IS_IN_MMC
 	board_late_mmc_env_init();
-#endif
-#ifdef CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG
-	env_set("board_name", "EVK");
-	env_set("board_rev", "iMX8MP");
 #endif
 
 	return 0;
