@@ -157,13 +157,13 @@ void board_init_f(ulong dummy)
 
 	timer_init();
 
-	preloader_console_init();
-
 	ret = spl_early_init();
 	if (ret) {
 		debug("spl_early_init() failed: %d\n", ret);
 		hang();
 	}
+
+	preloader_console_init();
 
 	ret = uclass_get_device_by_name(UCLASS_CLK,
 					"clock-controller@30380000",
