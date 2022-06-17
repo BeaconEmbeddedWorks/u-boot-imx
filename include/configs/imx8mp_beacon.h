@@ -53,15 +53,10 @@
 /* ENET1 */
 
 #if defined(CONFIG_CMD_NET)
-#define CONFIG_ETHPRIME                 "eth1" /* Set eqos to primary since we use its MDIO */
-
+#define CONFIG_ETHPRIME                 "eth0"
 #define CONFIG_FEC_XCV_TYPE             RGMII
-#define CONFIG_FEC_MXC_PHYADDR          3
-
-#define DWC_NET_PHYADDR			3
-
+#define FEC_QUIRK_ENET_MAC
 #define PHY_ANEG_TIMEOUT 20000
-
 #endif
 
 #ifdef CONFIG_DISTRO_DEFAULTS
