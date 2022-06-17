@@ -440,6 +440,15 @@
 	};
 };
 
+&gpio2 {
+	usb-c-mux {
+		gpio-hog;
+		gpios = <20 0>;
+		output-low;
+		line-name = "USB1_TYPEC_EN_B";
+	};
+};
+
 &iomuxc {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_hog>;
@@ -450,6 +459,7 @@
 			MX8MP_IOMUXC_HDMI_DDC_SDA__HDMIMIX_HDMI_SDA	0x400001c3
 			MX8MP_IOMUXC_HDMI_HPD__HDMIMIX_HDMI_HPD		0x40000019
 			MX8MP_IOMUXC_HDMI_CEC__HDMIMIX_HDMI_CEC		0x40000019
+			MX8MP_IOMUXC_SD2_WP__GPIO2_IO20			0x16
 		>;
 	};
 
