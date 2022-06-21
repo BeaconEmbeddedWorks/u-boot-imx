@@ -5,6 +5,7 @@
 #
 
 obj-y += imx8mp_beacon.o
+obj-y += ../../freescale/common/
 
 ifdef CONFIG_SPL_BUILD
 obj-y += spl.o
