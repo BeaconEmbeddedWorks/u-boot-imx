@@ -22,6 +22,7 @@
 #include <spl.h>
 #include <asm/mach-imx/dma.h>
 #include <power/pmic.h>
+#include "../../freescale/common/tcpc.h"
 #include <usb.h>
 #include <dwc3-uboot.h>
 #include <imx_sip.h>
@@ -229,9 +230,39 @@ int board_phy_config(struct phy_device *phydev)
 #define DISPMIX				13
 #define MIPI				15
 
+/* Configure the incoming Power */
+static int setup_typec(void)
+{
+	const struct tcpc_port_config power_port_config = {
+		.i2c_bus = 2, /*i2c3*/
+		.addr = 0x53,
+		.port_type = TYPEC_PORT_UFP,
+		.max_snk_mv = 9000,
+		.max_snk_ma = 3000,
+		.max_snk_mw = 45000,
+		.op_snk_mv = 27000,
+	};
+	int ret;
+	struct tcpc_port power_port;
+
+	debug("tcpc_init power port\n");
+	ret = tcpc_init(&power_port, power_port_config, NULL);
+
+	if (ret) {
+		printf("%s: tcpc power power init failed, err=%d\n",
+		       __func__, ret);
+		return ret;
+	}
+	return 0;
+}
+
 int board_init(void)
 {
 	struct arm_smccc_res res;
+
+#ifdef CONFIG_USB_TCPC
+	setup_typec(); /* Set input power to ~9V */
+#endif
 
 	/* Enable USB power default */
 	imx8m_usb_power(0, true);
