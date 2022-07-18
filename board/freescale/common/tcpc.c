@@ -127,15 +127,15 @@ int tcpc_get_cc_status(struct tcpc_port *port, enum typec_cc_polarity *polarity,
 			switch (cc2) {
 			case 0x1:
 				*state = TYPEC_STATE_SNK_DEFAULT;
-				tcpc_log(port, "SNK.Default on CC2\n");
+				tcpc_debug_log(port, "SNK.Default on CC2\n");
 				break;
 			case 0x2:
 				*state = TYPEC_STATE_SNK_POWER15;
-				tcpc_log(port, "SNK.Power1.5 on CC2\n");
+				tcpc_debug_log(port, "SNK.Power1.5 on CC2\n");
 				break;
 			case 0x3:
 				*state = TYPEC_STATE_SNK_POWER30;
-				tcpc_log(port, "SNK.Power3.0 on CC2\n");
+				tcpc_debug_log(port, "SNK.Power3.0 on CC2\n");
 				break;
 			}
 		} else if (cc1) {
@@ -144,15 +144,15 @@ int tcpc_get_cc_status(struct tcpc_port *port, enum typec_cc_polarity *polarity,
 			switch (cc1) {
 			case 0x1:
 				*state = TYPEC_STATE_SNK_DEFAULT;
-				tcpc_log(port, "SNK.Default on CC1\n");
+				tcpc_debug_log(port, "SNK.Default on CC1\n");
 				break;
 			case 0x2:
 				*state = TYPEC_STATE_SNK_POWER15;
-				tcpc_log(port, "SNK.Power1.5 on CC1\n");
+				tcpc_debug_log(port, "SNK.Power1.5 on CC1\n");
 				break;
 			case 0x3:
 				*state = TYPEC_STATE_SNK_POWER30;
-				tcpc_log(port, "SNK.Power3.0 on CC1\n");
+				tcpc_debug_log(port, "SNK.Power3.0 on CC1\n");
 				break;
 			}
 		} else {
@@ -168,10 +168,10 @@ int tcpc_get_cc_status(struct tcpc_port *port, enum typec_cc_polarity *polarity,
 			case 0x1:
 				if (cc1 == 0x1) {
 					*state = TYPEC_STATE_SRC_BOTH_RA;
-					tcpc_log(port, "SRC.Ra on both CC1 and CC2\n");
+					tcpc_debug_log(port, "SRC.Ra on both CC1 and CC2\n");
 				} else if (cc1 == 0x2) {
 					*state = TYPEC_STATE_SRC_RD_RA;
-					tcpc_log(port, "SRC.Ra on CC2, SRC.Rd on CC1\n");
+					tcpc_debug_log(port, "SRC.Ra on CC2, SRC.Rd on CC1\n");
 				} else if (cc1 == 0x0) {
 					tcpc_log(port, "SRC.Ra only on CC2\n");
 					return -EFAULT;
@@ -181,10 +181,10 @@ int tcpc_get_cc_status(struct tcpc_port *port, enum typec_cc_polarity *polarity,
 			case 0x2:
 				if (cc1 == 0x1) {
 					*state = TYPEC_STATE_SRC_RD_RA;
-					tcpc_log(port, "SRC.Ra on CC1, SRC.Rd on CC2\n");
+					tcpc_debug_log(port, "SRC.Ra on CC1, SRC.Rd on CC2\n");
 				} else if (cc1 == 0x0) {
 					*state = TYPEC_STATE_SRC_RD;
-					tcpc_log(port, "SRC.Rd on CC2\n");
+					tcpc_debug_log(port, "SRC.Rd on CC2\n");
 				} else
 					return -EFAULT;
 				break;
@@ -197,11 +197,11 @@ int tcpc_get_cc_status(struct tcpc_port *port, enum typec_cc_polarity *polarity,
 
 			switch (cc1) {
 			case 0x1:
-				tcpc_log(port, "SRC.Ra only on CC1\n");
+				tcpc_debug_log(port, "SRC.Ra only on CC1\n");
 				return -EFAULT;
 			case 0x2:
 				*state = TYPEC_STATE_SRC_RD;
-				tcpc_log(port, "SRC.Rd on CC1\n");
+				tcpc_debug_log(port, "SRC.Rd on CC1\n");
 				break;
 			case 0x3:
 				*state = TYPEC_STATE_SRC_RESERVED;
@@ -558,12 +558,12 @@ static void tcpc_log_source_caps(struct tcpc_port *port, struct pd_message *msg,
 		u32 pdo = msg->payload[i];
 		enum pd_pdo_type type = pdo_type(pdo);
 
-		tcpc_log(port, "PDO %d: type %d, ",
+		tcpc_debug_log(port, "PDO %d: type %d, ",
 			 i, type);
 
 		switch (type) {
 		case PDO_TYPE_FIXED:
-			tcpc_log(port, "%u mV, %u mA [%s%s%s%s%s%s]\n",
+			tcpc_debug_log(port, "%u mV, %u mA [%s%s%s%s%s%s]\n",
 				  pdo_fixed_voltage(pdo),
 				  pdo_max_current(pdo),
 				  (pdo & PDO_FIXED_DUAL_ROLE) ?
@@ -580,13 +580,13 @@ static void tcpc_log_source_caps(struct tcpc_port *port, struct pd_message *msg,
 							"E" : "");
 			break;
 		case PDO_TYPE_VAR:
-			tcpc_log(port, "%u-%u mV, %u mA\n",
+			tcpc_debug_log(port, "%u-%u mV, %u mA\n",
 				  pdo_min_voltage(pdo),
 				  pdo_max_voltage(pdo),
 				  pdo_max_current(pdo));
 			break;
 		case PDO_TYPE_BATT:
-			tcpc_log(port, "%u-%u mV, %u mW\n",
+			tcpc_debug_log(port, "%u-%u mV, %u mW\n",
 				  pdo_min_voltage(pdo),
 				  pdo_max_voltage(pdo),
 				  pdo_max_power(pdo));
@@ -690,13 +690,13 @@ static int tcpc_pd_build_request(struct tcpc_port *port,
 	if (type == PDO_TYPE_BATT) {
 		*rdo = RDO_BATT(index + 1, mw, max_mw, flags);
 
-		tcpc_log(port, "Requesting PDO %d: %u mV, %u mW%s\n",
+		tcpc_debug_log(port, "Requesting PDO %d: %u mV, %u mW%s\n",
 			 index, mv, mw,
 			 flags & RDO_CAP_MISMATCH ? " [mismatch]" : "");
 	} else {
 		*rdo = RDO_FIXED(index + 1, ma, max_ma, flags);
 
-		tcpc_log(port, "Requesting PDO %d: %u mV, %u mA%s\n",
+		tcpc_debug_log(port, "Requesting PDO %d: %u mV, %u mA%s\n",
 			 index, mv, ma,
 			 flags & RDO_CAP_MISMATCH ? " [mismatch]" : "");
 	}
@@ -751,7 +751,7 @@ static void tcpc_pd_sink_process(struct tcpc_port *port)
 
 			if (msgtype == PD_CTRL_ACCEPT) {
 				pd_state = WAIT_SOURCE_READY;
-				tcpc_log(port, "Source accept request\n");
+				tcpc_debug_log(port, "Source accept request\n");
 			} else if (msgtype == PD_CTRL_REJECT) {
 				tcpc_log(port, "Source reject request\n");
 				return;
@@ -763,7 +763,7 @@ static void tcpc_pd_sink_process(struct tcpc_port *port)
 				continue;
 
 			if (msgtype == PD_CTRL_PS_RDY) {
-				tcpc_log(port, "PD source ready!\n");
+				tcpc_debug_log(port, "PD source ready!\n");
 				pd_state = SINK_READY;
 			}
 
@@ -1017,7 +1017,7 @@ int tcpc_init(struct tcpc_port *port, struct tcpc_port_config config, ss_mux_sel
 		return -EIO;
 	}
 
-	tcpc_log(port, "TCPC:  Vendor ID [0x%x], Product ID [0x%x], Addr [I2C%u 0x%x]\n",
+	tcpc_debug_log(port, "TCPC:  Vendor ID [0x%x], Product ID [0x%x], Addr [I2C%u 0x%x]\n",
 		vid, pid, port->cfg.i2c_bus, port->cfg.addr);
 
 	if (!port->cfg.disable_pd) {
