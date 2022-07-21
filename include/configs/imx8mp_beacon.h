@@ -45,18 +45,6 @@
 #define PHY_ANEG_TIMEOUT 20000
 #endif
 
-#ifdef CONFIG_DISTRO_DEFAULTS
-#define BOOT_TARGET_DEVICES(func) \
-	func(USB, usb, 0) \
-	func(MMC, mmc, 1) \
-	func(MMC, mmc, 2)
-
-#include <config_distro_bootcmd.h>
-#else
-#define BOOTENV
-#endif
-
-
 #define JAILHOUSE_ENV \
 	"jh_clk= \0 " \
 	"jh_mmcboot=setenv fdtfile imx8mp-beacon-root.dtb;" \
@@ -77,7 +65,6 @@
 #define CONFIG_EXTRA_ENV_SETTINGS		\
 	CONFIG_MFG_ENV_SETTINGS \
 	JAILHOUSE_ENV \
-	BOOTENV \
 	"scriptaddr=0x43500000\0" \
 	"kernel_addr_r=" __stringify(CONFIG_LOADADDR) "\0" \
 	"bsp_script=boot.scr\0" \
