@@ -1274,16 +1274,17 @@ usb_modify_speed:
 
 	delete_u_boot_nodes(blob);
 
-#if defined(CONFIG_ANDROID_SUPPORT) || defined(CONFIG_ANDROID_AUTO_SUPPORT)
-	return 0;
-#else
-	return ft_add_optee_node(blob, bd);
-#endif
 	if (fixup_thermal_trips(blob, "cpu-thermal"))
 		printf("Failed to update cpu-thermal trip(s)");
 #ifdef CONFIG_IMX8MP
 	if (fixup_thermal_trips(blob, "soc-thermal"))
 		printf("Failed to update soc-thermal trip(s)");
+#endif
+
+#if defined(CONFIG_ANDROID_SUPPORT) || defined(CONFIG_ANDROID_AUTO_SUPPORT)
+	return 0;
+#else
+	return ft_add_optee_node(blob, bd);
 #endif
 
 }
