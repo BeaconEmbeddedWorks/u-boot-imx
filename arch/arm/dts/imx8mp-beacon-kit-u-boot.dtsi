@@ -204,10 +204,13 @@
 	/delete-property/ assigned-clocks;
 	/delete-property/ assigned-clock-parents;
 	/delete-property/ assigned-clock-rates;
+};
 
-	phy-reset-gpios = <&gpio4 22 GPIO_ACTIVE_LOW>;
-	phy-reset-duration = <15>;
-	phy-reset-post-delay = <100>;
+&ethphy0 {
+        reset-gpios = <&gpio4 22 GPIO_ACTIVE_LOW>;
+        reset-assert-us = <15000>;
+        reset-deassert-us = <100000>;
+        eee-broken-1000t;
 };
 
 &fec {
