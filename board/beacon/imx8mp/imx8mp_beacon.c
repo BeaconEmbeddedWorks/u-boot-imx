@@ -43,6 +43,11 @@ static iomux_v3_cfg_t const wdog_pads[] = {
 	MX8MP_PAD_GPIO1_IO02__WDOG1_WDOG_B  | MUX_PAD_CTRL(WDOG_PAD_CTRL),
 };
 
+int board_mmc_get_env_dev(int devno)
+{
+	return CONFIG_SYS_MMC_ENV_DEV;
+}
+
 #ifdef CONFIG_NAND_MXS
 
 static void setup_gpmi_nand(void)
