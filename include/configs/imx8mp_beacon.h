@@ -86,7 +86,6 @@
 	"optargs=audit=1\0" \
 	"finduuid=part uuid mmc ${mmcdev}:2 uuid\0" \
 	"mmcroot=" CONFIG_MMCROOT " rootwait rw\0" \
-	"mmcautodetect=yes\0" \
 	"mmcargs=setenv bootargs console=${console} " \
 	" root=PARTUUID=${uuid} rootwait rw ${mtdparts} ${optargs}\0" \
 	"bootscript=echo Running bootscript from mmc ...; " \
