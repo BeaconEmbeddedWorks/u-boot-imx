@@ -188,6 +188,7 @@ config TARGET_IMX8MN_VENICE
 
 config TARGET_IMX8MP_BEACON
 	bool "imx8mp Beacon Embedded devkit"
+	select BINMAN
 	select IMX8MP
 	select SUPPORT_SPL
 	select IMX8M_LPDDR4
