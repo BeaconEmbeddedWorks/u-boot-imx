@@ -36,13 +36,6 @@ int board_mmc_get_env_dev(int devno)
 	return CONFIG_SYS_MMC_ENV_DEV;
 }
 
-int board_early_init_f(void)
-{
-	init_uart_clk(1);
-
-	return 0;
-}
-
 #ifdef CONFIG_OF_BOARD_SETUP
 int ft_board_setup(void *blob, struct bd_info *bd)
 {
