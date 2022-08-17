@@ -61,7 +61,7 @@ void spl_board_init(void)
 	clock_set_target_val(GIC_CLK_ROOT, CLK_ROOT_ON | CLK_ROOT_SOURCE_SEL(5));
 	clock_enable(CCGR_GIC, 1);
 
-	puts("Normal Boot\n");
+	debug("Normal Boot\n");
 #endif
 }
 
