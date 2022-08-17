@@ -83,7 +83,7 @@
 	"bootm_size=0x10000000\0" \
 	"mmcdev=1\0" \
 	"mmcpart=1\0" \
-	"optargs=audit=1\0" \
+	"optargs=audit=0\0" \
 	"finduuid=part uuid mmc ${mmcdev}:2 uuid\0" \
 	"mmcroot=" CONFIG_MMCROOT " rootwait rw\0" \
 	"mmcargs=setenv bootargs console=${console} " \
