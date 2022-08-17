@@ -123,16 +123,11 @@ void board_init_f(ulong dummy)
 	struct udevice *dev;
 	int ret;
 
-	/* Clear the BSS. */
-	memset(__bss_start, 0, __bss_end - __bss_start);
-
 	arch_cpu_init();
 
 	board_early_init_f();
 
 	timer_init();
-
-	preloader_console_init();
 
 	ret = spl_early_init();
 	if (ret) {
@@ -148,12 +143,12 @@ void board_init_f(ulong dummy)
 		hang();
 	}
 
+	preloader_console_init();
+
 	enable_tzc380();
 
 	power_init_board();
 
 	/* DDR initialization */
 	spl_dram_init();
-
-	board_init_r(NULL, 0);
 }
