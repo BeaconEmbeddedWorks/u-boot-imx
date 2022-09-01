@@ -144,14 +144,17 @@
 
 &pca6416 {
 	compatible = "ti,tca6416";
+	label = "exp4";
 };
 
 &pca6416_1 {
 	compatible = "ti,tca6416";
+	label = "exp4";
 };
 
 &pca6416_3 {
 	compatible = "ti,tca6416";
+	label = "exp2";
 };
 
 &pinctrl_i2c1 {
