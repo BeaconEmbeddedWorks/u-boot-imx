@@ -50,12 +50,12 @@
 #define JAILHOUSE_ENV \
 	"jh_clk= \0 " \
 	"jh_root_dtb=" JH_ROOT_DTB "\0" \
-	"jh_mmcboot=setenv fdtfile ${jh_root_dtb};" \
+	"jh_mmcboot=setenv fdt_file ${jh_root_dtb};" \
 		"setenv jh_clk clk_ignore_unused mem=1920MB; " \
 			   "if run loadimage; then " \
 				   "run mmcboot; " \
 			   "else run jh_netboot; fi; \0" \
-	"jh_netboot=setenv fdtfile ${jh_root_dtb}; setenv jh_clk clk_ignore_unused mem=1920MB; run netboot; \0 "
+	"jh_netboot=setenv fdt_file ${jh_root_dtb}; setenv jh_clk clk_ignore_unused mem=1920MB; run netboot; \0 "
 
 #define CONFIG_MFG_ENV_SETTINGS \
 	CONFIG_MFG_ENV_SETTINGS_DEFAULT \
@@ -79,7 +79,7 @@
 	"boot_fdt=try\0" \
 	"fdt_high=0xffffffffffffffff\0"		\
 	"boot_fit=no\0" \
-	"fdtfile=" CONFIG_DEFAULT_FDT_FILE "\0" \
+	"fdt_file=" CONFIG_DEFAULT_FDT_FILE "\0" \
 	"bootm_size=0x10000000\0" \
 	"mmcdev=1\0" \
 	"mmcpart=1\0" \
@@ -91,7 +91,7 @@
 	"bootscript=echo Running bootscript from mmc ...; " \
 		"source\0" \
 	"loadimage=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${image}\0" \
-	"loadfdt=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr_r} ${fdtfile}\0" \
+	"loadfdt=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr_r} ${fdt_file}\0" \
 	"mmcboot=echo Booting from mmc ...; " \
 		"run finduuid; run mmcargs; " \
 		"if test ${boot_fit} = yes || test ${boot_fit} = try; then " \
@@ -117,7 +117,7 @@
 		"if test ${boot_fit} = yes || test ${boot_fit} = try; then " \
 			"bootm ${loadaddr}; " \
 		"else " \
-			"if ${get_cmd} ${fdt_addr_r} ${fdtfile}; then " \
+			"if ${get_cmd} ${fdt_addr_r} ${fdt_file}; then " \
 				"booti ${loadaddr} - ${fdt_addr_r}; " \
 			"else " \
 				"echo WARN: Cannot load the DT; " \
