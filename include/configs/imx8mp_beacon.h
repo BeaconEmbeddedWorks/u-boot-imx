@@ -91,7 +91,7 @@
 	"bootscript=echo Running bootscript from mmc ...; " \
 		"source\0" \
 	"loadimage=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${image}\0" \
-	"loadfdt=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr_r} ${fdt_file}\0" \
+	"loadfdt=echo ${fdt_file}; fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr_r} ${fdt_file}\0" \
 	"mmcboot=echo Booting from mmc ...; " \
 		"run finduuid; run mmcargs; " \
 		"if test ${boot_fit} = yes || test ${boot_fit} = try; then " \
