@@ -28,12 +28,18 @@
 #include <imx_sip.h>
 #include <linux/arm-smccc.h>
 #include <mmc.h>
+#include <env_internal.h>
 
 DECLARE_GLOBAL_DATA_PTR;
 
 int board_mmc_get_env_dev(int devno)
 {
 	return CONFIG_SYS_MMC_ENV_DEV;
+}
+
+enum env_location env_get_location(enum env_operation op, int prio)
+{
+        return prio ? ENVL_UNKNOWN : ENVL_MMC;
 }
 
 #ifdef CONFIG_OF_BOARD_SETUP
