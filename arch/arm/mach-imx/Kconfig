@@ -265,6 +265,12 @@ config CMD_PROVISION_KEY
 	  read encrypted key and decrypt it using PKEK.
 	  generate black blob of decrypted key, add 20 bytes TAG to black blob.
 
+config IMX_ENV_BOOT_DEFAULT
+	bool "Use boot default for MMC environment"
+	default y if ARCH_IMX8M
+	help
+	  When not booting from sd/mmc, use default value found in 'mmcdev'
+
 config ANDROID_SUPPORT
 	bool "Standard Android features support"
 	default n
