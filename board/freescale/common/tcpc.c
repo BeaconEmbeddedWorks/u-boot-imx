@@ -483,9 +483,7 @@ static int tcpc_pd_receive_message(struct tcpc_port *port, struct pd_message *ms
 	/* Generally the max tSenderResponse is 30ms, max tTypeCSendSourceCap is 200ms, we set the timeout to 500ms */
 	ret = tcpc_polling_reg(port, TCPC_ALERT, 2, TCPC_ALERT_RX_STATUS, TCPC_ALERT_RX_STATUS, 500);
 	if (ret) {
-		tcpc_log(port, "%s: Polling ALERT register, TCPC_ALERT_RX_STATUS bit failed, ret = %d\n",
-			__func__, ret);
-		return ret;
+		return 0;
 	}
 
 	cnt = 0;
