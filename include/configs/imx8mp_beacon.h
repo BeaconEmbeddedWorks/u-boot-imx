@@ -135,12 +135,16 @@
 
 #define CONFIG_MMCROOT			"/dev/mmcblk1p2"  /* USDHC2 */
 
-/* Totally 6GB DDR */
+/* Supporting 6GB DDR or 4GB DDR*/
 #define CONFIG_SYS_SDRAM_BASE		0x40000000
 #define PHYS_SDRAM			0x40000000
 #define PHYS_SDRAM_SIZE			0xC0000000	/* 3 GB */
 #define PHYS_SDRAM_2			0x100000000
+#if defined(CONFIG_IMX8MP_BEACON_4GB_LPDDR)
+#define PHYS_SDRAM_2_SIZE		0x40000000	/* 1 GB */
+#else
 #define PHYS_SDRAM_2_SIZE		0xC0000000	/* 3 GB */
+#endif/* IMX8MP_BEACON_4GB_LPDDR */
 
 #define CONFIG_MXC_UART_BASE		UART2_BASE_ADDR
 
