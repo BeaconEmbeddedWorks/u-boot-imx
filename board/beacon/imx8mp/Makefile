@@ -12,6 +12,10 @@ obj-y += spl.o
 ifdef CONFIG_IMX8MP_BEACON_4GB_LPDDR
 obj-y += lpddr4_4g_timing.o
 else
-obj-y += lpddr4_timing.o
+    ifdef CONFIG_IMX8MP_BEACON_2GB_LPDDR
+    obj-y += lpddr4_2g_timing.o
+    else
+    obj-y += lpddr4_timing.o
+endif
 endif
 endif

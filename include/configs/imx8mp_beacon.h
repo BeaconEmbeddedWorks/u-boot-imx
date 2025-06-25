@@ -138,6 +138,10 @@
 /* Supporting 6GB DDR or 4GB DDR*/
 #define CONFIG_SYS_SDRAM_BASE		0x40000000
 #define PHYS_SDRAM			0x40000000
+#if defined(CONFIG_IMX8MP_BEACON_2GB_LPDDR)
+#define PHYS_SDRAM_SIZE			0x80000000	/* 2 GB */
+/* 2GB variant does not have PHYS_SDRAM_2 */
+#else
 #define PHYS_SDRAM_SIZE			0xC0000000	/* 3 GB */
 #define PHYS_SDRAM_2			0x100000000
 #if defined(CONFIG_IMX8MP_BEACON_4GB_LPDDR)
@@ -145,7 +149,7 @@
 #else
 #define PHYS_SDRAM_2_SIZE		0xC0000000	/* 3 GB */
 #endif/* IMX8MP_BEACON_4GB_LPDDR */
-
+#endif /* CONFIG_IMX8MP_BEACON_2GB_LPDDR */
 #define CONFIG_MXC_UART_BASE		UART2_BASE_ADDR
 
 /* Monitor Command Prompt */

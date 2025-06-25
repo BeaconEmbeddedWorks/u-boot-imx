@@ -15,6 +15,12 @@ config IMX8MP_BEACON_4GB_LPDDR
 	  Enable this if the SOM has 4GB of RAM instead of
 	  the default 6GB variant.
 
+config IMX8MP_BEACON_2GB_LPDDR
+	bool "Enable 2GB LPDDR"
+	help
+	  Enable this if the SOM has 2GB of RAM instead of
+	  the default 6GB variant.
+
 config IMX_CONFIG
 	default "board/freescale/imx8mp_evk/imximage-8mp-lpddr4.cfg"
 
