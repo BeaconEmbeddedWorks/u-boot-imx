@@ -1,0 +1,6 @@
+i.MX8MP CARGT 00377 OSM-L SOM
+M:	Tim Carney <tim.carney@cargt.com>
+S:	Maintained
+F:	board/cargt/imx93_00377/
+F:	include/configs/imx93_00377.h
+F:	configs/imx93_cargt-00363-00377_defconfig

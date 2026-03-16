@@ -1,0 +1,15 @@
+if TARGET_IMX8MP_00377
+
+config SYS_BOARD
+	default "imx8mp_00377"
+
+config SYS_VENDOR
+	default "cargt"
+
+config SYS_CONFIG_NAME
+	default "imx8mp_00377"
+
+config IMX_CONFIG
+	default "board/cargt/imx8mp_00377/imximage-8mp-lpddr4.cfg"
+
+endif

@@ -1,0 +1,41 @@
+if TARGET_IMX93_00363
+
+config SYS_BOARD
+	default "imx93_00363"
+
+config SYS_VENDOR
+	default "cargt"
+
+config SYS_CONFIG_NAME
+	default "imx93_00363"
+
+choice
+	prompt "Select method to choose LPDDR4x timing for TARGET_IMX93_00363"
+	default CARGT_IMX93_00363_LPDDR4X_TIMING_BY_NAME
+
+config CARGT_IMX93_00363_LPDDR4X_TIMING_BY_NAME
+	bool "Using CARGT_IMX93_00363_LPDDR4X_TIMING_FILENAME for LPDDR4x Timing selection"
+	help
+	  Select the LPDDR4x timing based on specified filename
+
+config CARGT_IMX93_00363_LPDDR4X_TIMING_BY_BOARD_ID
+	bool "Using Cargt HW Board ID for LPDDR4x Timing selection"
+	help
+	  Select the LPDDR4x timing based on Board ID
+
+config CARGT_IMX93_00363_LPDDR4X_TIMING_BY_EEPROM
+	bool "Using Cargt EEPROM contents for LPDDR4x Timing selection"
+	help
+	  Select the LPDDR4x timing based on contents of EEPROM on SOM
+
+endchoice
+
+config CARGT_IMX93_00363_LPDDR4X_TIMING_FILENAME
+	string "Specify the LPDDR4x Timing Filename"
+    depends on CARGT_IMX93_00363_LPDDR4X_TIMING_BY_NAME
+	default "cargt_lpddr4x_1gbyte_timing"
+	help
+	  Name of the timing file to use when CARGT_IMX93_00363_LPDDR4X_TIMING_BY_NAME is used.
+
+
+endif

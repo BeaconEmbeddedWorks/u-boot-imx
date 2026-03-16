@@ -1,0 +1,6 @@
+i.MX93 Beacon Embedded Works Kit
+M:	Beacon Embedded Works
+S:	Maintained
+F:	board/beacon/imx93/
+F:	include/configs/imx93_beacon.h
+F:	configs/imx93_beacon_defconfig

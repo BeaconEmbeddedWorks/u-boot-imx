@@ -1,0 +1,6 @@
+i.MX93 CARGT 00324 SODIMM SOM
+M:	Tim Carney <tim.carney@cargt.com>
+S:	Maintained
+F:	board/cargt/imx93_00324/
+F:	include/configs/imx93_00324.h
+F:	configs/imx93_cargt-00324-00326_defconfig
