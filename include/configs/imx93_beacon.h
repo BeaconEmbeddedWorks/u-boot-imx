@@ -82,6 +82,7 @@
 	"kernel_addr_r=" __stringify(CONFIG_SYS_LOAD_ADDR) "\0" \
 	"image=boot/Image\0" \
 	"splashimage=0x90000000\0" \
+	"optargs=audit=0\0" \
 	"console=ttyLP0,115200 earlycon\0" \
 	"fdt_addr_r=0x83000000\0"			\
 	"fdt_addr=0x83000000\0"			\
@@ -94,7 +95,7 @@
 	"mmcdev=" __stringify(CONFIG_SYS_MMC_ENV_DEV)"\0" \
 	"mmcpart=1\0" \
 	"mmcautodetect=yes\0" \
-	"mmcargs=setenv bootargs ${jh_clk} console=${console} " \
+	"mmcargs=setenv bootargs ${jh_clk} console=${console} ${optargs} " \
 		"root=/dev/mmcblk${mmcdev}p${mmcpart} rootwait rw\0" \
 	"loadbootscript=${loadcmd} mmc ${mmcdev}:${mmcpart} ${loadaddr} ${script};\0" \
 	"bootscript=echo Running bootscript from mmc ...; " \
@@ -123,7 +124,7 @@
 				"fi; " \
 			"fi;" \
 		"fi;\0" \
-	"netargs=setenv bootargs ${jh_clk} ${mcore_clk} console=${console} " \
+	"netargs=setenv bootargs ${jh_clk} ${mcore_clk} console=${console} ${optargs} " \
 		"root=/dev/nfs " \
 		"ip=dhcp nfsroot=${serverip}:${nfsroot},v3,tcp\0" \
 	"netboot=echo Booting from net ...; " \
